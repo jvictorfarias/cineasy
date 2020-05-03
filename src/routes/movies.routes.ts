@@ -1,12 +1,18 @@
-import { Router } from 'express';
+import { Router, Request } from 'express';
 
 import ListMoviesService from '../services/ListMoviesService';
 import ListMovieDetailsService from '../services/ListMovieDetailsService';
 
+interface Query extends Request {
+  query: {
+    title: string;
+  };
+}
+
 const moviesRouter = Router();
 
-moviesRouter.get('/:title', async (request, response) => {
-  const { title } = request.params;
+moviesRouter.get('/', async (request: Query, response) => {
+  const { title } = request.query;
 
   const listMoviesService = new ListMoviesService();
 
