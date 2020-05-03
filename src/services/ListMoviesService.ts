@@ -6,30 +6,53 @@ interface Request {
 
 interface Movie {
   Title: string;
-  Year: number;
+  Year: string;
   imdbID: string;
-  Type: 'movie' | 'series' | 'episode';
+  Type?: 'movie' | 'series' | 'episode';
   Poster: string;
+  imdbRating?: string;
 }
 
 interface APIResponse {
   Search: Movie[];
 }
 
-interface MovieList extends Movie {
-  imdbRating: number;
+interface RatingResponse {
+  imdbRating: string;
+}
+interface Response {
+  movies: Movie[];
 }
 
 class ListMovieService {
-  public async execute({ title }: Request): Promise<APIResponse> {
-    const searchResult = await api.get<APIResponse>('', {
+  public async execute({ title }: Request): Promise<Movie[]> {
+    const { data: searchResult } = await api.get<APIResponse>('', {
       params: {
         s: title,
         type: 'movie',
       },
     });
 
-    return searchResult.data;
+    const moviesWithRating: Promise<Movie>[] = searchResult.Search.map(
+      async movie => {
+        const { data } = await api.get<RatingResponse>('', {
+          params: {
+            i: movie.imdbID,
+          },
+        });
+        return {
+          imdbID: movie.imdbID,
+          Title: movie.Title,
+          Year: movie.Year,
+          Poster: movie.Poster,
+          imdbRating: data.imdbRating,
+        };
+      },
+    );
+
+    const moviesList = await Promise.all(moviesWithRating);
+
+    return moviesList;
   }
 }
 
