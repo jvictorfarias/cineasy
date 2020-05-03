@@ -21,4 +21,17 @@ describe('Movies', () => {
       ]),
     );
   });
+
+  it('should be able to list movie details', async () => {
+    const response = await request(app).get('/movies/details/tt0120338');
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toMatchObject({
+      Director: 'James Cameron',
+      Actors: 'Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates',
+      Plot:
+        'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.',
+      Awards: 'Won 11 Oscars. Another 114 wins & 83 nominations.',
+    });
+  });
 });
