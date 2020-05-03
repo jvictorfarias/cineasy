@@ -8,6 +8,7 @@ interface Movie {
   Title: string;
   Year: string;
   imdbID: string;
+  Plot?: string;
   Type?: 'movie' | 'series' | 'episode';
   Poster: string;
   imdbRating?: string;
@@ -19,6 +20,7 @@ interface APIResponse {
 
 interface RatingResponse {
   imdbRating: string;
+  Plot: string;
 }
 interface Response {
   movies: Movie[];
@@ -46,6 +48,7 @@ class ListMovieService {
           Year: movie.Year,
           Poster: movie.Poster,
           imdbRating: data.imdbRating,
+          Plot: data.Plot,
         };
       },
     );
