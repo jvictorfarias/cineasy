@@ -8,7 +8,6 @@ interface Movie {
   Title: string;
   Year: string;
   imdbID: string;
-  Plot?: string;
   Type?: 'movie' | 'series' | 'episode';
   Poster: string;
   imdbRating?: string;
@@ -48,7 +47,6 @@ class ListMovieService {
           Year: movie.Year,
           Poster: movie.Poster,
           imdbRating: data.imdbRating,
-          Plot: data.Plot,
         };
       },
     );
