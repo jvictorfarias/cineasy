@@ -1,6 +1,10 @@
 import React from 'react';
 import { Container } from './styles';
 
-const Home: React.FC = () => <h1>Home</h1>;
+import Empty from '../../components/Empty';
+
+const Home: React.FC = () => {
+  return <Empty />;
+};
 
 export default Home;
