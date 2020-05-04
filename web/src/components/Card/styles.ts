@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 export const Container = styled.li`
   width: 100%;
-  height: 220px;
-  background: #fff;
-  border-radius: 3px;
+  height: 190px;
+  background: transparent;
+  border-radius: 4px;
   box-shadow: 0 4px 30px 0 rgba(5, 10, 13, 0.3);
   display: flex;
   align-items: center;
@@ -13,6 +13,7 @@ export const Container = styled.li`
 
   img {
     flex: 1;
+    border-radius: 4px;
     max-width: 100%;
     max-height: 100%;
   }
@@ -23,7 +24,9 @@ export const Mask = styled.div`
   width: 100%;
   height: 100%;
   background-color: #212932;
+  border-radius: 4px;
   opacity: 0;
+  transition: opacity 0.2s;
 
   p {
     position: absolute;
@@ -35,7 +38,6 @@ export const Mask = styled.div`
     max-width: 120px;
     line-height: 24px;
     letter-spacing: 0.22px;
-    color: #fff;
   }
 
   span {
@@ -56,7 +58,15 @@ export const Mask = styled.div`
   }
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    opacity: 0.9;
 
     svg {
       opacity: 1;
