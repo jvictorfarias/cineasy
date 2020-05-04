@@ -8,7 +8,6 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  max-width: 80vw;
   > img {
     justify-content: flex-start;
     width: 60px;
@@ -21,7 +20,7 @@ export const CardContainer = styled.ul`
   width: 100%;
   margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   grid-auto-rows: auto;
   grid-gap: 1rem;
 `;

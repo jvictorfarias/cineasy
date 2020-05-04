@@ -13,6 +13,7 @@ export default createGlobalStyle`
     color: #FFF;
     -webkit-font-smoothing: antialiased !important;
     font-family: 'Helvetica', sans-serif;
+    font-weight: normal;
   }
 
 
