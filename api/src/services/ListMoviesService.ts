@@ -27,16 +27,29 @@ interface Response {
 
 class ListMovieService {
   public async execute({ title }: Request): Promise<Movie[]> {
-    const { data: searchResult } = await api.get<APIResponse>('', {
+    const { data: searchQuery } = await api.get<APIResponse>('', {
       params: {
         s: title,
         type: 'movie',
       },
     });
 
-    const moviesWithRating: Promise<Movie>[] = searchResult.Search.map(
+    const filteredResults = searchQuery.Search.reduce(
+      (accumulator: Movie[], movie: Movie) => {
+        if (
+          !accumulator.find((element: Movie) => element.imdbID === movie.imdbID)
+        ) {
+          accumulator.push(movie);
+        }
+
+        return accumulator;
+      },
+      [],
+    );
+
+    const moviesWithRating: Promise<Movie>[] = filteredResults.map(
       async movie => {
-        const { data } = await api.get<RatingResponse>('', {
+        const { data: ratingQuery } = await api.get<RatingResponse>('', {
           params: {
             i: movie.imdbID,
           },
@@ -46,7 +59,7 @@ class ListMovieService {
           Title: movie.Title,
           Year: movie.Year,
           Poster: movie.Poster,
-          imdbRating: data.imdbRating,
+          imdbRating: ratingQuery.imdbRating,
         };
       },
     );
