@@ -26,6 +26,7 @@
         "react", "react-hooks", "@typescript-eslint", "prettier"
     ],
     "rules": {
+        "react/prop-types":"off",
         "react/jsx-props-no-spreading": "off",
         "prettier/prettier": "error",
         "spaced-comment":"off",

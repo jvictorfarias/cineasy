@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Container, Content, CardContainer } from './styles';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { Container, Content, InputContainer, CardContainer } from './styles';
 
 import Empty from '../../components/Empty';
 import Input from '../../components/Input';
 import Card from '../../components/Card';
+import Button from '../../components/Button';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -14,13 +16,12 @@ interface Movie {
   Title: string;
   Year: string;
   Poster: string;
+  imdbRating: string;
 }
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filter, setFilter] = useState<string>('');
-
-  const inputRef = useRef(null);
 
   useEffect(() => {
     async function fetchData(): Promise<void> {
@@ -43,27 +44,41 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSetFilter = useCallback((newFilter: string) => {
+    console.log(newFilter);
+    setFilter(newFilter);
+  }, []);
+
   return (
     <Container>
       <Content>
         <img src={logoImg} alt="logo" />
-        <Input />
-        <CardContainer>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </CardContainer>
+        <form>
+          <InputContainer>
+            <FiSearch color="#7a8c99" size={20} />
+            <Input updateFilter={handleSetFilter} />
+            <Button>Search</Button>
+          </InputContainer>
+        </form>
 
-        <Empty />
+        {movies.length === 0 ? (
+          <CardContainer>
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+          </CardContainer>
+        ) : (
+          <Empty />
+        )}
       </Content>
     </Container>
   );

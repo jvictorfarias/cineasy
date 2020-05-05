@@ -1,14 +1,26 @@
-import React from 'react';
-
-import { FiSearch } from 'react-icons/fi';
+import React, { useCallback, InputHTMLAttributes } from 'react';
 
 import { Container } from './styles';
 
-const Input: React.FC = ({ ...rest }) => (
-  <Container>
-    <FiSearch color="#7A8C99" size={20} />
-    <input placeholder="Search movies..." />
-  </Container>
-);
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  updateFilter(filter: string): void;
+}
+
+const Input: React.FC<InputProps> = ({ updateFilter, ...rest }) => {
+  const handleInputChange = useCallback(
+    (filter: string) => {
+      updateFilter(filter);
+    },
+    [updateFilter],
+  );
+
+  return (
+    <Container
+      {...rest}
+      placeholder="Search movies..."
+      onChange={(e) => handleInputChange(e.target.value)}
+    />
+  );
+};
 
 export default Input;

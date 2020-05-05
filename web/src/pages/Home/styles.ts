@@ -20,8 +20,24 @@ export const Content = styled.div`
 export const CardContainer = styled.ul`
   max-width: 100%;
   margin-top: 18px;
+  margin-bottom: 18px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   grid-auto-rows: auto;
   grid-gap: 1rem;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 44px;
+  width: 80vw;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  svg {
+    margin-left: 14px;
+  }
 `;
