@@ -9,11 +9,14 @@ export default createGlobalStyle`
   }
 
   body, input, button, option, span{
-    background: #0A0F14;
     color: #FFF;
     -webkit-font-smoothing: antialiased !important;
     font-family: 'Helvetica', sans-serif;
     font-weight: normal;
+  }
+
+  body{
+    background: #0A0F14;
   }
 
 

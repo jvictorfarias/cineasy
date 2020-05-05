@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { FiSearch, FiChevronDown } from 'react-icons/fi';
 import {
   Container,
@@ -23,12 +23,31 @@ interface Movie {
   Year: string;
   Poster: string;
   imdbRating: string;
+  [key: string]: string;
 }
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filter, setFilter] = useState<string>('');
-  const [sort, setSort] = useState<string>('title');
+  const [sort, setSort] = useState<string>('Title');
+
+  const sortMovies: Movie[] = useMemo(() => {
+    const sortedMovies = movies.sort((a, b) => {
+      if (a[sort] > b[sort]) return 1;
+      if (a[sort] < b[sort]) return -1;
+
+      return 0;
+    });
+
+    return sortedMovies;
+  }, [movies, sort]);
+
+  useEffect(() => {
+    if (movies) {
+      const newMovies = sortMovies;
+      setMovies(newMovies);
+    }
+  }, [movies, sortMovies]);
 
   const handleSubmit = useCallback(
     async (event) => {
@@ -45,7 +64,7 @@ const Home: React.FC = () => {
         console.log(err);
       }
     },
-    [filter],
+    [filter, sortMovies],
   );
 
   const handleSortChange = useCallback((sortType: string) => {
@@ -77,7 +96,7 @@ const Home: React.FC = () => {
               <select
                 onChange={(event) => handleSortChange(event.target.value)}
               >
-                <option defaultChecked value="title">
+                <option defaultChecked value="Title">
                   Title
                 </option>
                 <option value="imdbRating">IMDB Rating</option>
