@@ -21,9 +21,6 @@ interface RatingResponse {
   imdbRating: string;
   Plot: string;
 }
-interface Response {
-  movies: Movie[];
-}
 
 class ListMovieService {
   public async execute({ title }: Request): Promise<Movie[]> {
