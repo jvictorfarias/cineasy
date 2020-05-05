@@ -1,9 +1,9 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import { StorageProvider } from './storage';
 
-const hooks: React.FC = () => {
-  return <div />;
-};
+const AppProvider: React.FC = ({ children }) => (
+  <StorageProvider>{children}</StorageProvider>
+);
 
-export default hooks;
+export default AppProvider;

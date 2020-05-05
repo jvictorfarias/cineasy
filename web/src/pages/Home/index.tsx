@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { FiSearch, FiChevronDown } from 'react-icons/fi';
 import {
   Container,
@@ -15,61 +15,42 @@ import Button from '../../components/Button';
 
 import logoImg from '../../assets/logo.svg';
 
-import api from '../../services/api';
-
-interface Movie {
-  imdbID: string;
-  Title: string;
-  Year: string;
-  Poster: string;
-  imdbRating: string;
-  [key: string]: string;
-}
+import { useStorage, Movie } from '../../hooks/storage';
 
 const Home: React.FC = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const { searchMovies, movies, loading } = useStorage();
+
   const [filter, setFilter] = useState<string>('');
-  const [sort, setSort] = useState<string>('Title');
-
-  const sortMovies: Movie[] = useMemo(() => {
-    const sortedMovies = movies.sort((a, b) => {
-      if (a[sort] > b[sort]) return 1;
-      if (a[sort] < b[sort]) return -1;
-
-      return 0;
-    });
-
-    return sortedMovies;
-  }, [movies, sort]);
+  const [sort, setSort] = useState<string>('');
+  const [moviesList, setMoviesList] = useState<Movie[]>([]);
 
   useEffect(() => {
-    if (movies) {
-      const newMovies = sortMovies;
-      setMovies(newMovies);
-    }
-  }, [movies, sortMovies]);
+    const sortedMovies = movies.sort(
+      (a, b) => Number(a[sort]) - Number(b[sort]),
+    );
+
+    console.log(sortedMovies);
+    setMoviesList(sortedMovies);
+  }, [movies, sort]);
 
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
       try {
-        const { data } = await api.get<Movie[]>('/movies', {
-          params: {
-            title: filter,
-          },
-        });
-
-        setMovies(data);
+        searchMovies(filter);
       } catch (err) {
         console.log(err);
       }
     },
-    [filter],
+    [searchMovies, filter],
   );
 
-  const handleSortChange = useCallback((sortType: string) => {
-    setSort(sortType);
-  }, []);
+  const handleSortChange = useCallback(
+    (newSort: string) => {
+      setSort(newSort);
+    },
+    [setSort],
+  );
 
   const handleSetFilter = useCallback((newFilter: string) => {
     setFilter(newFilter);
@@ -83,11 +64,16 @@ const Home: React.FC = () => {
           <InputContainer>
             <FiSearch color="#7a8c99" size={20} />
             <Input updateFilter={handleSetFilter} />
-            <Button onClick={(event) => handleSubmit(event)}>Search</Button>
+            <Button
+              isLoading={!!loading}
+              onClick={(event) => handleSubmit(event)}
+            >
+              Search
+            </Button>
           </InputContainer>
         </form>
 
-        {movies.length === 0 ? (
+        {moviesList.length === 0 ? (
           <Empty />
         ) : (
           <>
@@ -96,15 +82,15 @@ const Home: React.FC = () => {
               <select
                 onChange={(event) => handleSortChange(event.target.value)}
               >
-                <option defaultChecked value="Title">
-                  Title
+                <option defaultChecked value="Year">
+                  Year
                 </option>
                 <option value="imdbRating">IMDB Rating</option>
               </select>
               <FiChevronDown />
             </SelectContainer>
             <CardContainer>
-              {movies.map((movie) => (
+              {moviesList.map((movie) => (
                 <Card
                   key={movie.imdbID}
                   imdbId={movie.imdbID}

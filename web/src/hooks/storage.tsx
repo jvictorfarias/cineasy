@@ -2,12 +2,14 @@ import React, { createContext, useState, useCallback, useContext } from 'react';
 
 import api from '../services/api';
 
-interface Movie {
+export interface Movie {
   imdbID: string;
   Title: string;
   Year: string;
   Poster: string;
   imdbRating: string;
+  favorite?: boolean;
+  [key: string]: string | boolean | undefined;
 }
 
 interface StorageContextData {
@@ -47,16 +49,28 @@ export const StorageProvider: React.FC = ({ children }) => {
   const searchMovies = useCallback(
     async (filter: string) => {
       setLoading(true);
-      const { data } = await api.get<Movie[]>('/movies', {
-        params: {
-          title: filter,
-        },
-      });
+      try {
+        const { data } = await api.get<Movie[]>('/movies', {
+          params: {
+            title: filter,
+          },
+        });
 
-      setMovies([...movies, ...data]);
-      localStorage.setItem('@Cinease:movies', JSON.stringify(movies));
+        localStorage.clear();
+
+        localStorage.setItem(
+          '@Cineasy:movies',
+          JSON.stringify([...favorites, ...data]),
+        );
+
+        setMovies([...favorites, ...data]);
+      } catch (err) {
+        console.log(err);
+      }
+
+      setLoading(false);
     },
-    [movies],
+    [favorites],
   );
 
   const addFavorite = useCallback(
@@ -69,7 +83,13 @@ export const StorageProvider: React.FC = ({ children }) => {
 
   return (
     <StorageContext.Provider
-      value={{ movies, favorites, loading, searchMovies, addFavorite }}
+      value={{
+        movies,
+        favorites,
+        loading,
+        searchMovies,
+        addFavorite,
+      }}
     >
       {children}
     </StorageContext.Provider>

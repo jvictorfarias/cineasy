@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { FiChevronDown } from 'react-icons/fi';
 
 export const Container = styled.div`
   display: flex;
