@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiSearch } from 'react-icons/fi';
-import { Container, Content, InputContainer, CardContainer } from './styles';
+import { FiSearch, FiChevronDown } from 'react-icons/fi';
+import {
+  Container,
+  Content,
+  InputContainer,
+  SelectContainer,
+  CardContainer,
+} from './styles';
 
 import Empty from '../../components/Empty';
 import Input from '../../components/Input';
@@ -22,11 +28,10 @@ interface Movie {
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filter, setFilter] = useState<string>('');
+  const [sort, setSort] = useState<string>('title');
 
   const handleSubmit = useCallback(
     async (event) => {
-      console.log(filter);
-
       event.preventDefault();
       try {
         const { data } = await api.get<Movie[]>('/movies', {
@@ -42,6 +47,10 @@ const Home: React.FC = () => {
     },
     [filter],
   );
+
+  const handleSortChange = useCallback((sortType: string) => {
+    setSort(sortType);
+  }, []);
 
   const handleSetFilter = useCallback((newFilter: string) => {
     setFilter(newFilter);
@@ -62,18 +71,32 @@ const Home: React.FC = () => {
         {movies.length === 0 ? (
           <Empty />
         ) : (
-          <CardContainer>
-            {movies.map((movie) => (
-              <Card
-                key={movie.imdbID}
-                imdbId={movie.imdbID}
-                title={movie.Title}
-                year={movie.Year}
-                poster={movie.Poster}
-                imdbRating={movie.imdbRating}
-              />
-            ))}
-          </CardContainer>
+          <>
+            <SelectContainer>
+              <span>Sort by: </span>
+              <select
+                onChange={(event) => handleSortChange(event.target.value)}
+              >
+                <option defaultChecked value="title">
+                  Title
+                </option>
+                <option value="imdbRating">IMDB Rating</option>
+              </select>
+              <FiChevronDown />
+            </SelectContainer>
+            <CardContainer>
+              {movies.map((movie) => (
+                <Card
+                  key={movie.imdbID}
+                  imdbId={movie.imdbID}
+                  title={movie.Title}
+                  year={movie.Year}
+                  poster={movie.Poster}
+                  imdbRating={movie.imdbRating}
+                />
+              ))}
+            </CardContainer>
+          </>
         )}
       </Content>
     </Container>

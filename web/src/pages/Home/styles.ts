@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { FiChevronDown } from 'react-icons/fi';
 
 export const Container = styled.div`
   display: flex;
@@ -39,5 +40,39 @@ export const InputContainer = styled.div`
 
   svg {
     margin-left: 14px;
+  }
+`;
+
+export const SelectContainer = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  span {
+    color: #e18f4e;
+    font-size: 18px;
+  }
+  select {
+    margin-left: 8px;
+    appearance: none;
+    background: #ad302b;
+    padding-left: 4px;
+    width: 100px;
+    height: 30px;
+    border: 1px solid #ad302b;
+    border-radius: 4px;
+    color: #fff;
+
+    option {
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      letter-spacing: 0.22px;
+    }
+  }
+
+  svg {
+    margin-left: -20px;
   }
 `;
