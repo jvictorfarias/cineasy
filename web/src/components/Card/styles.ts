@@ -51,7 +51,7 @@ export const Mask = styled.div`
     letter-spacing: 0.22px;
   }
 
-  span {
+  > span {
     position: absolute;
     left: 5px;
     bottom: 5px;
@@ -81,5 +81,43 @@ export const Mask = styled.div`
     svg {
       opacity: 1;
     }
+  }
+`;
+
+export const Rating = styled.div`
+  position: absolute;
+  padding: 12px;
+  display: flex;
+  top: 0;
+  left: 0;
+  margin: 8px 0 0 8px;
+  padding: 0;
+  background: #0a1014;
+  border: 1px solid #353f4c;
+  border-radius: 4px;
+  width: 60px;
+  height: 20px;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    padding: 4px;
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    background: #ff9f1c;
+    border-radius: 4px 0 0 4px;
+  }
+
+  span {
+    color: #ffffff;
+    font-family: Helvetica;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.17px;
+    line-height: 20px;
+    text-align: center;
+    padding: 4px;
+    width: 50%;
   }
 `;

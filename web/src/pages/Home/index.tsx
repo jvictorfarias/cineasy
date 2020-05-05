@@ -64,7 +64,7 @@ const Home: React.FC = () => {
         console.log(err);
       }
     },
-    [filter, sortMovies],
+    [filter],
   );
 
   const handleSortChange = useCallback((sortType: string) => {
