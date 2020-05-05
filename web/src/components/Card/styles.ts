@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.li`
+interface CardStyleProps {
+  emptyImg: boolean;
+}
+
+export const Container = styled.li<CardStyleProps>`
   width: 100%;
   height: 180px;
   background: transparent;
@@ -15,7 +19,14 @@ export const Container = styled.li`
     flex: 1;
     border-radius: 4px;
     max-width: 100%;
-    max-height: 100%;
+    height: 100%;
+
+    ${(props) =>
+      props.emptyImg &&
+      css`
+        background: #ad302b;
+        height: 100%;
+      `}
   }
 `;
 

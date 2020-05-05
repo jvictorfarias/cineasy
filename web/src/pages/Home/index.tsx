@@ -23,29 +23,27 @@ const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filter, setFilter] = useState<string>('');
 
-  useEffect(() => {
-    async function fetchData(): Promise<void> {
+  const handleSubmit = useCallback(
+    async (event) => {
+      console.log(filter);
+
+      event.preventDefault();
       try {
         const { data } = await api.get<Movie[]>('/movies', {
           params: {
-            title: 'titanic',
+            title: filter,
           },
         });
 
         setMovies(data);
-
-        console.log(movies);
       } catch (err) {
         console.log(err);
       }
-    }
-
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    },
+    [filter],
+  );
 
   const handleSetFilter = useCallback((newFilter: string) => {
-    console.log(newFilter);
     setFilter(newFilter);
   }, []);
 
@@ -57,27 +55,25 @@ const Home: React.FC = () => {
           <InputContainer>
             <FiSearch color="#7a8c99" size={20} />
             <Input updateFilter={handleSetFilter} />
-            <Button>Search</Button>
+            <Button onClick={(event) => handleSubmit(event)}>Search</Button>
           </InputContainer>
         </form>
 
         {movies.length === 0 ? (
-          <CardContainer>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </CardContainer>
-        ) : (
           <Empty />
+        ) : (
+          <CardContainer>
+            {movies.map((movie) => (
+              <Card
+                key={movie.imdbID}
+                imdbId={movie.imdbID}
+                title={movie.Title}
+                year={movie.Year}
+                poster={movie.Poster}
+                imdbRating={movie.imdbRating}
+              />
+            ))}
+          </CardContainer>
         )}
       </Content>
     </Container>

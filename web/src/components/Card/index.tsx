@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { LiHTMLAttributes } from 'react';
 
 import { FiHeart } from 'react-icons/fi';
+import noImg from '../../assets/no-image.svg';
 
 import { Container, Mask } from './styles';
 
-const Card: React.FC = () => (
-  <Container>
+interface CardProps extends LiHTMLAttributes<HTMLLIElement> {
+  key: string;
+  imdbId: string;
+  title: string;
+  poster: string;
+  year: string;
+  imdbRating: string;
+}
+
+const Card: React.FC<CardProps> = ({
+  imdbId,
+  title,
+  poster,
+  year,
+  imdbRating,
+  ...rest
+}) => (
+  <Container emptyImg={poster === 'N/A'} {...rest}>
     <Mask>
       <FiHeart size={24} fill="#fff" />
-      <p>What we do in the shadows</p>
-      <span>1998</span>
+      <p>{title}</p>
+      <span>{year}</span>
     </Mask>
-    <img
-      src="https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
-      alt="img"
-    />
+    {poster !== 'N/A' ? (
+      <img src={poster} alt={imdbId} />
+    ) : (
+      <img src={noImg} alt="empty" />
+    )}
   </Container>
 );
 export default Card;
