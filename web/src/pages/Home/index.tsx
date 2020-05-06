@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   const { searchMovies, movies, loading } = useStorage();
 
   const [filter, setFilter] = useState<string>('');
-  const [sort, setSort] = useState<string>('');
+  const [sort, setSort] = useState<string>('Year');
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
 
   useEffect(() => {
