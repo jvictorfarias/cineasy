@@ -1,8 +1,8 @@
 <div align="center">
-<img alt="cineasy" src="./.github/logo.svg" width="360" heigth="260"/>
+<img alt="cineasy" src="./.github/logo.svg" width="160" heigth="160"/>
 </div>
 
-<div align="center" style="margin: 20px;">
+<div align="center">
 
 [![The MIT License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](http://github.com/jvictorfarias/cineasy/LICENSE.md)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jvictorfarias/cineasy?color=green&style=flat-square)
