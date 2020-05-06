@@ -1,4 +1,4 @@
-<div align="center" style="margin-bottom: 20px;">
+<div align="center">
 <img alt="cineasy" src="./.github/logo.svg" width="360" heigth="260"/>
 </div>
 
