@@ -37,7 +37,7 @@ export const Container = styled.button<ButtonProps>`
 
       svg {
         animation: ${rotate} 2s linear infinite;
-        margin-right: 1px;
+        margin-right: 10px;
       }
     `}
 
